@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Belajar Biologi Anak 10 Tahun</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ecfeff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #0f766e;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+    section {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 { color: #0f766e; }
+    .question {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    label { margin-right: 10px; }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #22c55e;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { background: #16a34a; }
+    .feedback {
+      margin-left: 10px;
+      font-weight: bold;
+    }
+    .result {
+      margin-top: 12px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body><header>
+  <h1>🌿 Belajar Biologi Online</h1>
+  <p>Anak Usia 10 Tahun | 50 Soal | 90 Menit</p>
+</header><main><section>
+  <h2>Sesi 1 (45 Menit) – Makhluk Hidup & Lingkungan (25 Soal)</h2>
+  <div id="session1"></div>
+  <button onclick="checkSession1()">Cek Jawaban Sesi 1</button>
+  <div class="result" id="result1"></div>
+</section><section>
+  <h2>Sesi 2 (45 Menit) – Tubuh Manusia & Hewan (25 Soal)</h2>
+  <div id="session2"></div>
+  <button onclick="checkSession2()">Cek Jawaban Sesi 2</button>
+  <div class="result" id="result2"></div>
+</section></main><script>
+  // ===== BANK SOAL =====
+  const questions1 = [
+    {q:"Makhluk hidup memerlukan ... untuk bernapas", a:"oksigen"},
+    {q:"Tumbuhan membuat makanan melalui proses", a:"fotosintesis"},
+    {q:"Tempat hidup makhluk hidup disebut", a:"habitat"},
+    {q:"Hewan pemakan tumbuhan disebut", a:"herbivora"},
+    {q:"Hewan pemakan daging disebut", a:"karnivora"},
+    {q:"Hewan pemakan tumbuhan dan daging disebut", a:"omnivora"},
+    {q:"Contoh hewan ovipar adalah", a:"ayam"},
+    {q:"Contoh hewan vivipar adalah", a:"kucing"},
+    {q:"Bagian tumbuhan tempat fotosintesis", a:"daun"},
+    {q:"Akar berfungsi untuk", a:"menyerap air"},
+    {q:"Batang berfungsi untuk", a:"menopang"},
+    {q:"Bagian bunga yang menjadi buah", a:"putik"},
+    {q:"Hewan yang hidup di air", a:"ikan"},
+    {q:"Rantai makanan dimulai dari", a:"tumbuhan"},
+    {q:"Jamur berkembang biak dengan", a:"spora"},
+    {q:"Lingkungan hutan banyak terdapat", a:"pohon"},
+    {q:"Makhluk hidup yang dapat bergerak", a:"hewan"},
+    {q:"Contoh tumbuhan berakar serabut", a:"padi"},
+    {q:"Contoh tumbuhan berakar tunggang", a:"mangga"},
+    {q:"Hewan yang aktif malam hari", a:"kelelawar"},
+    {q:"Hewan yang hidup di dua alam", a:"katak"},
+    {q:"Bagian tumbuhan yang berwarna hijau", a:"daun"},
+    {q:"Tempat hidup ikan adalah", a:"air"},
+    {q:"Makhluk hidup membutuhkan makanan untuk", a:"energi"},
+    {q:"Contoh hewan peliharaan", a:"kucing"}
+  ];
+
+  const questions2 = [
+    {q:"Alat pernapasan manusia", a:"paru-paru"},
+    {q:"Alat peredaran darah manusia", a:"jantung"},
+    {q:"Jumlah panca indera manusia", a:"lima"},
+    {q:"Fungsi mata adalah untuk", a:"melihat"},
+    {q:"Fungsi telinga adalah untuk", a:"mendengar"},
+    {q:"Fungsi hidung adalah untuk", a:"mencium"},
+    {q:"Fungsi kulit adalah untuk", a:"meraba"},
+    {q:"Fungsi lidah adalah untuk", a:"mengecap"},
+    {q:"Alat gerak manusia", a:"tulang"},
+    {q:"Tempat otak berada", a:"kepala"},
+    {q:"Gigi berfungsi untuk", a:"mengunyah"},
+    {q:"Manusia berkembang biak dengan cara", a:"melahirkan"},
+    {q:"Darah berwarna", a:"merah"},
+    {q:"Hewan bernapas dengan insang", a:"ikan"},
+    {q:"Hewan bernapas dengan paru-paru", a:"kucing"},
+    {q:"Serangga bernapas dengan", a:"trakea"},
+    {q:"Burung bernapas dengan", a:"paru-paru"},
+    {q:"Kulit melindungi tubuh dari", a:"kuman"},
+    {q:"Tulang berfungsi untuk", a:"menopang tubuh"},
+    {q:"Otot berfungsi untuk", a:"bergerak"},
+    {q:"Jantung berfungsi untuk", a:"memompa darah"},
+    {q:"Darah mengalir melalui", a:"pembuluh darah"},
+    {q:"Bagian tubuh untuk berpikir", a:"otak"},
+    {q:"Jumlah kaki manusia", a:"dua"},
+    {q:"Hewan yang bertelur", a:"ayam"}
+  ];
+
+  // ===== TAMPILKAN SOAL =====
+  const s1 = document.getElementById("session1");
+  const s2 = document.getElementById("session2");
+
+  questions1.forEach((item, i) => {
+    s1.innerHTML += `<div class='question'>${i+1}. ${item.q} = <input id='a1_${i}'> <span class='feedback' id='f1_${i}'></span></div>`;
+  });
+
+  questions2.forEach((item, i) => {
+    s2.innerHTML += `<div class='question'>${i+1}. ${item.q} = <input id='a2_${i}'> <span class='feedback' id='f2_${i}'></span></div>`;
+  });
+
+  function checkSession1(){
+    let score=0;
+    questions1.forEach((item,i)=>{
+      let user=document.getElementById(`a1_${i}`).value.toLowerCase();
+      let f=document.getElementById(`f1_${i}`);
+      if(user===item.a){f.innerText='✔ Benar';f.style.color='green';score++;}
+      else{f.innerText='✘ Salah';f.style.color='red';}
+    });
+    document.getElementById('result1').innerText=`Skor Sesi 1: ${score} / 25`;
+  }
+
+  function checkSession2(){
+    let score=0;
+    questions2.forEach((item,i)=>{
+      let user=document.getElementById(`a2_${i}`).value.toLowerCase();
+      let f=document.getElementById(`f2_${i}`);
+      if(user===item.a){f.innerText='✔ Benar';f.style.color='green';score++;}
+      else{f.innerText='✘ Salah';f.style.color='red';}
+    });
+    document.getElementById('result2').innerText=`Skor Sesi 2: ${score} / 25`;
+  }
+</script></body>
+</html>
